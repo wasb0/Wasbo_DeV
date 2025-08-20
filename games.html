@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Games - Wasbo Dev</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bg: "#0d1117",
+              card: "#161b22",
+              accent: "#3b82f6",
+              accentDark: "#1e40af",
+              text: "#e5e7eb",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="min-h-screen bg-bg text-text flex flex-col">
+    <!-- Navigation -->
+    <nav class="p-6">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <a
+          href="index.html"
+          class="text-xl font-semibold text-white hover:text-accent transition-colors"
+        >
+          Wasbo Dev
+        </a>
+        <div class="space-x-8 text-lg font-bold">
+          <a href="index.html" class="hover:text-accent transition-colors"
+            >Home</a
+          >
+          <a href="games.html" class="text-accent font-extrabold">Games</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Games Grid -->
+    <main class="max-w-7xl mx-auto px-6 py-16">
+      <h2
+        class="text-5xl md:text-6xl font-extrabold text-center text-white mb-14"
+      >
+        Available Games
+      </h2>
+      <div
+        class="games-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
+      >
+        <!-- Games will be rendered here dynamically -->
+      </div>
+    </main>
+
+    <script src="games.js"></script>
+  </body>
+</html>

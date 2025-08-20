@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Games - Wasbo Dev</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bg: "#0d1117",
+              card: "#161b22",
+              accent: "#3b82f6",
+              accentDark: "#1e40af",
+              text: "#e5e7eb",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="min-h-screen bg-bg text-text flex flex-col">
+    <nav class="p-6">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-semibold text-white">Wasbo Dev</h1>
+        <div class="space-x-8 text-lg font-bold">
+          <a href="index.html" class="hover:text-accent transition-colors"
+            >Home</a
+          >
+          <a href="games.html" class="text-accent font-extrabold">Games</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="flex justify-center items-center flex-1 px-4 pb-8 relative">
+      <iframe
+        id="game"
+        class="rounded-2xl w-full max-w-6xl h-[75vh] bg-card shadow-lg border border-gray-800"
+      >
+      </iframe>
+      <button
+        id="fullscreen-btn"
+        class="absolute bottom-6 right-10 px-6 py-2 bg-accent hover:bg-accentDark text-white font-medium rounded-lg shadow transition-colors"
+      >
+        Fullscreen
+      </button>
+    </div>
+
+    <script>
+      document
+        .getElementById("fullscreen-btn")
+        .addEventListener("click", function () {
+          const iframe = document.getElementById("game");
+          if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+          } else if (iframe.mozRequestFullScreen) {
+            iframe.mozRequestFullScreen();
+          } else if (iframe.webkitRequestFullscreen) {
+            iframe.webkitRequestFullscreen();
+          } else if (iframe.msRequestFullscreen) {
+            iframe.msRequestFullscreen();
+          }
+        });
+    </script>
+    <script src="play.js"></script>
+    <script src="games.js"></script>
+  </body>
+</html>
