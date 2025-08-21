@@ -36,15 +36,19 @@ function loadGame(cdnIndex) {
     const fallbackUrl = `${altCdn}${game.root}/${game.file}`;
 
     const iframe = document.getElementById("game");
-    setIframeSrc(iframe, gameUrl, fallbackUrl);
+    if (iframe) setIframeSrc(iframe, gameUrl, fallbackUrl);
 }
 
-// Show game CDN popup (only once per session)
+// Show game CDN popup (once per page load)
 function showGameCdnPopup() {
-    if (sessionStorage.getItem("gameCdnPicked")) {
-        loadGame(0); // load default if already picked
-        return;
+    const game = getGameData();
+    if (!game) {
+        console.error("No game data found in localStorage.");
+        return; // stop if no game
     }
+
+    if (window._gameCdnPopupShown) return; // only show once per page load
+    window._gameCdnPopupShown = true;
 
     const cdnPopup = document.createElement("div");
     cdnPopup.className = "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50";
@@ -61,7 +65,6 @@ function showGameCdnPopup() {
 
     function hidePopup() {
         cdnPopup.style.display = "none";
-        sessionStorage.setItem("gameCdnPicked", "true");
     }
 
     document.getElementById("primaryCdnBtn").onclick = () => { loadGame(0); hidePopup(); };
@@ -73,22 +76,29 @@ function showGameCdnPopup() {
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 const iframe = document.getElementById("game");
 
-fullscreenBtn.onclick = () => {
-    if (document.fullscreenElement) {
-        document.exitFullscreen();
-    } else {
-        iframe.requestFullscreen();
-    }
-};
+if (fullscreenBtn && iframe) {
+    fullscreenBtn.onclick = () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            iframe.requestFullscreen();
+        }
+    };
 
-document.addEventListener("fullscreenchange", () => {
-    fullscreenBtn.textContent = document.fullscreenElement ? "Exit Fullscreen" : "Fullscreen";
+    document.addEventListener("fullscreenchange", () => {
+        fullscreenBtn.textContent = document.fullscreenElement ? "Exit Fullscreen" : "Fullscreen";
+        fullscreenBtn.classList.remove("hidden");
+    });
+
     fullscreenBtn.classList.remove("hidden");
-});
+}
 
-fullscreenBtn.classList.remove("hidden");
-
-// Initialize
+// Initialize on page load
 document.addEventListener("DOMContentLoaded", () => {
-    showGameCdnPopup();
+    const game = getGameData();
+    if (game) {
+        showGameCdnPopup();
+    } else {
+        console.error("No game data found. Make sure you clicked a game on games.html first.");
+    }
 });

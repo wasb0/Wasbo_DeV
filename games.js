@@ -52,9 +52,10 @@ function renderGames(games = null) {
     });
 }
 
-// Show image CDN popup (once per session)
+// Show image CDN popup (once per page load)
 function showCdnPopup() {
-    if (sessionStorage.getItem('selectedImageCdn')) return; // already picked
+    if (window._cdnPopupShown) return; // only block multiple popups per page load
+    window._cdnPopupShown = true;
 
     const cdns = [
         { url: 'https://assets.zyph3r.com/', label: 'Image CDN 1', btnClass: 'bg-accent hover:bg-accentDark' },
@@ -79,7 +80,7 @@ function showCdnPopup() {
         btn.textContent = cdn.label;
         btn.className = `px-4 py-2 ${cdn.btnClass} text-white rounded-lg transition`;
         btn.addEventListener('click', () => {
-            sessionStorage.setItem('selectedImageCdn', cdn.url);
+            sessionStorage.setItem('selectedImageCdn', cdn.url); // store selection for rendering
             popup.remove();
             renderGames();
         });
@@ -88,6 +89,11 @@ function showCdnPopup() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    showCdnPopup();
+    // Only show image CDN popup on games.html
+    if (window.location.pathname.endsWith('games.html')) {
+        showCdnPopup();
+    }
     fetchGames();
 });
+
+
