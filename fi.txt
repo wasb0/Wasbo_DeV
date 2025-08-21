@@ -1,0 +1,16 @@
+server {
+    listen 80;
+
+    server_name amp.renahosts.tech assets.onyxdev.me assets.zyph3r.com assets.onyxdev.pw;
+
+    root /var/www/wasbodev;
+    index index.html index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Optional: log files
+    access_log /var/log/nginx/wasbodev.access.log;
+    error_log /var/log/nginx/wasbodev.error.log;
+}
